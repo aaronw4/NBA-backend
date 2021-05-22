@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS stats (
     [fta] integer NOT NULL,
     [fta_opp] integer NOT NULL,
     [drb] integer NOT NULL,
-    [drb_opp] NOT NULL, 
+    [drb_opp] integer NOT NULL, 
     [orb] integer NOT NULL,
     [orb_opp] integer NOT NULL,
     [three] integer NOT NULL,

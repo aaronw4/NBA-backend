@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS teams (
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS stats (
     [id] integer PRIMARY KEY,
+    [season] text NOT NULL,
     [date] text NOT NULL,
     [points] integer NOT NULL,
     [points_opp] integer NOT NULL,

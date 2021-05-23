@@ -11,9 +11,9 @@ def getID(name):
     return team[0]
 
 season = "2020/2021"
-year = 2020
-month = 12
-day = 22
+year = 2021
+month = 5
+day = 1
 date = f'{month}-{day}-{year}'
 
 #Check if date is already entered
@@ -37,14 +37,14 @@ for links in soup_links.find_all('p', class_="links"):
     link = links.find('a')
     game_links.append(link['href'])
 
-#Loop through all links and collect data
+#Loop through all links and collect data 
 for i in range(0, len(game_links)):
     game_data = requests.get(address + game_links[i], headers=headers)
-
     soup_games = BeautifulSoup(game_data.text, 'lxml')
 
     team1_stats = []
     team2_stats = []
+    opponent = 8
 
     #Get team names
     scorebox = soup_games.find('div', class_='scorebox')
@@ -62,41 +62,43 @@ for i in range(0, len(game_links)):
     team1_stats.append(season)
     team1_stats.append(date,)
     table1 = soup_games.find_all('tfoot')
+    if len(table1) == 18:
+        opponent = 10
     team1_pts = table1[0].find('td', attrs={'data-stat': 'pts'}).text
     team1_stats.append(int(team1_pts))
-    team1_pts_opp = table1[8].find('td', attrs={'data-stat': 'pts'}).text
+    team1_pts_opp = table1[opponent].find('td', attrs={'data-stat': 'pts'}).text
     team1_stats.append(int(team1_pts_opp))
     team1_fg = table1[0].find('td', attrs={'data-stat': 'fg'}).text
     team1_stats.append(int(team1_fg))
-    team1_fg_opp = table1[8].find('td', attrs={'data-stat': 'fg'}).text
+    team1_fg_opp = table1[opponent].find('td', attrs={'data-stat': 'fg'}).text
     team1_stats.append(int(team1_fg_opp))
     team1_fga = table1[0].find('td', attrs={'data-stat': 'fga'}).text
     team1_stats.append(int(team1_fga))
-    team1_fga_opp = table1[8].find('td', attrs={'data-stat': 'fga'}).text
+    team1_fga_opp = table1[opponent].find('td', attrs={'data-stat': 'fga'}).text
     team1_stats.append(int(team1_fga_opp))
     team1_to = table1[0].find('td', attrs={'data-stat': 'tov'}).text
     team1_stats.append(int(team1_to))
-    team1_to_opp = table1[8].find('td', attrs={'data-stat': 'tov'}).text
+    team1_to_opp = table1[opponent].find('td', attrs={'data-stat': 'tov'}).text
     team1_stats.append(int(team1_to_opp))
     team1_fta = table1[0].find('td', attrs={'data-stat': 'fta'}).text
     team1_stats.append(int(team1_fta))
-    team1_fta_opp = table1[8].find('td', attrs={'data-stat': 'fta'}).text
+    team1_fta_opp = table1[opponent].find('td', attrs={'data-stat': 'fta'}).text
     team1_stats.append(int(team1_fta_opp))
     team1_drb = table1[0].find('td', attrs={'data-stat': 'drb'}).text
     team1_stats.append(int(team1_drb))
-    team1_drb_opp = table1[8].find('td', attrs={'data-stat': 'drb'}).text
+    team1_drb_opp = table1[opponent].find('td', attrs={'data-stat': 'drb'}).text
     team1_stats.append(int(team1_drb_opp))
     team1_orb = table1[0].find('td', attrs={'data-stat': 'orb'}).text
     team1_stats.append(int(team1_orb))
-    team1_orb_opp = table1[8].find('td', attrs={'data-stat': 'orb'}).text
+    team1_orb_opp = table1[opponent].find('td', attrs={'data-stat': 'orb'}).text
     team1_stats.append(int(team1_orb_opp))
     team1_3p = table1[0].find('td', attrs={'data-stat': 'fg3'}).text
     team1_stats.append(int(team1_3p))
-    team1_3p_opp = table1[8].find('td', attrs={'data-stat': 'fg3'}).text
+    team1_3p_opp = table1[opponent].find('td', attrs={'data-stat': 'fg3'}).text
     team1_stats.append(int(team1_3p_opp))
     team1_3pa = table1[0].find('td', attrs={'data-stat': 'fg3a'}).text
     team1_stats.append(int(team1_3pa))
-    team1_3pa_opp = table1[8].find('td', attrs={'data-stat': 'fg3a'}).text
+    team1_3pa_opp = table1[opponent].find('td', attrs={'data-stat': 'fg3a'}).text
     team1_stats.append(int(team1_3pa_opp))
     team1_stats.append(getID(team1_name))
 

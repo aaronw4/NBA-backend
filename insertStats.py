@@ -10,8 +10,8 @@ def getID(name):
     team = cursor.fetchone()
     return team[0]
 
-teamID = getID('Bulls')
-
+# teamID = getID('Bulls')
+season = "2020/2021"
 year = 2020
 month = 12
 day = 22
@@ -38,9 +38,28 @@ for i in range(0, len(game_links)):
     team1_stats = []
     team2_stats = []
 
+    #Get team names
     scorebox = soup_games.find('div', class_='scorebox')
     teams = scorebox.find_all('strong')
     team1_name = teams[0].find('a').text
+    team1_name = team1_name.split(' ')[-1:][0]
     team2_name = teams[1].find('a').text
+    team2_name = team2_name.split(' ')[-1:][0]
+    if team1_name == 'Blazers':
+        team1_name = 'Trail Blazers'
+    if team2_name == 'Blazers':
+        team2_name = 'Trail Blazers'
 
-    print(team1_name, team2_name)
+    #Collect game stats
+    team1_stats.append(season)
+    team1_stats.append(f'{month}-{day}-{year}')
+    table1 = soup_games.find_all('tfoot')
+    team1_pts = table1[0].find('td', attrs={'data-stat': 'pts'}).text
+    team1_stats.append(int(team1_pts))
+
+
+
+    team2_stats.append(season)
+    team2_stats.append(f'{month}-{day}-{year}')
+
+    print(team1_stats)

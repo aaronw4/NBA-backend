@@ -56,10 +56,16 @@ for i in range(0, len(game_links)):
     table1 = soup_games.find_all('tfoot')
     team1_pts = table1[0].find('td', attrs={'data-stat': 'pts'}).text
     team1_stats.append(int(team1_pts))
+    team1_pts_opp = table1[8].find('td', attrs={'data-stat': 'pts'}).text
+    team1_stats.append(int(team1_pts_opp))
 
 
 
     team2_stats.append(season)
     team2_stats.append(f'{month}-{day}-{year}')
+    team2_stats.append(int(team1_pts_opp))
+    team2_stats.append(int(team1_pts))
 
+    # print()
     print(team1_stats)
+    print(team2_stats)

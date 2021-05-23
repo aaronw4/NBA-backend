@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS stats (
     [fg_opp] integer NOT NULL,
     [fga] integer NOT NULL,
     [fga_opp] integer NOT NULL,
-    [to] integer NOT NULL,
-    [to_opp] integer NOT NULL,
+    [tov] integer NOT NULL,
+    [tov_opp] integer NOT NULL,
     [fta] integer NOT NULL,
     [fta_opp] integer NOT NULL,
     [drb] integer NOT NULL,
@@ -31,6 +31,8 @@ CREATE TABLE IF NOT EXISTS stats (
     [orb_opp] integer NOT NULL,
     [three] integer NOT NULL,
     [three_opp] integer NOT NULL,
+    [three_a] integer NOT NULL,
+    [three_opp_a] integer NOT NULL,
     [team_id] integer NOT NULL,
     FOREIGN KEY ("team_id") REFERENCES teams (id)
 ) """)

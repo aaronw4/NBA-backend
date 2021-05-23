@@ -10,11 +10,19 @@ def getID(name):
     team = cursor.fetchone()
     return team[0]
 
-# teamID = getID('Bulls')
 season = "2020/2021"
 year = 2020
 month = 12
 day = 22
+date = f'{month}-{day}-{year}'
+
+#Check if date is already entered
+cursor.execute('SELECT date FROM stats WHERE date=?', (date,))
+data = cursor.fetchone()
+if data is not None:
+    print('Data from date already entered.')
+    exit()
+
 address = "https://www.basketball-reference.com"
 date_extension = f"/boxscores/?month={month}&day={day}&year={year}"
 headers={
@@ -52,20 +60,83 @@ for i in range(0, len(game_links)):
 
     #Collect game stats
     team1_stats.append(season)
-    team1_stats.append(f'{month}-{day}-{year}')
+    team1_stats.append(date,)
     table1 = soup_games.find_all('tfoot')
     team1_pts = table1[0].find('td', attrs={'data-stat': 'pts'}).text
     team1_stats.append(int(team1_pts))
     team1_pts_opp = table1[8].find('td', attrs={'data-stat': 'pts'}).text
     team1_stats.append(int(team1_pts_opp))
-
-
+    team1_fg = table1[0].find('td', attrs={'data-stat': 'fg'}).text
+    team1_stats.append(int(team1_fg))
+    team1_fg_opp = table1[8].find('td', attrs={'data-stat': 'fg'}).text
+    team1_stats.append(int(team1_fg_opp))
+    team1_fga = table1[0].find('td', attrs={'data-stat': 'fga'}).text
+    team1_stats.append(int(team1_fga))
+    team1_fga_opp = table1[8].find('td', attrs={'data-stat': 'fga'}).text
+    team1_stats.append(int(team1_fga_opp))
+    team1_to = table1[0].find('td', attrs={'data-stat': 'tov'}).text
+    team1_stats.append(int(team1_to))
+    team1_to_opp = table1[8].find('td', attrs={'data-stat': 'tov'}).text
+    team1_stats.append(int(team1_to_opp))
+    team1_fta = table1[0].find('td', attrs={'data-stat': 'fta'}).text
+    team1_stats.append(int(team1_fta))
+    team1_fta_opp = table1[8].find('td', attrs={'data-stat': 'fta'}).text
+    team1_stats.append(int(team1_fta_opp))
+    team1_drb = table1[0].find('td', attrs={'data-stat': 'drb'}).text
+    team1_stats.append(int(team1_drb))
+    team1_drb_opp = table1[8].find('td', attrs={'data-stat': 'drb'}).text
+    team1_stats.append(int(team1_drb_opp))
+    team1_orb = table1[0].find('td', attrs={'data-stat': 'orb'}).text
+    team1_stats.append(int(team1_orb))
+    team1_orb_opp = table1[8].find('td', attrs={'data-stat': 'orb'}).text
+    team1_stats.append(int(team1_orb_opp))
+    team1_3p = table1[0].find('td', attrs={'data-stat': 'fg3'}).text
+    team1_stats.append(int(team1_3p))
+    team1_3p_opp = table1[8].find('td', attrs={'data-stat': 'fg3'}).text
+    team1_stats.append(int(team1_3p_opp))
+    team1_3pa = table1[0].find('td', attrs={'data-stat': 'fg3a'}).text
+    team1_stats.append(int(team1_3pa))
+    team1_3pa_opp = table1[8].find('td', attrs={'data-stat': 'fg3a'}).text
+    team1_stats.append(int(team1_3pa_opp))
+    team1_stats.append(getID(team1_name))
 
     team2_stats.append(season)
-    team2_stats.append(f'{month}-{day}-{year}')
+    team2_stats.append(date,)
     team2_stats.append(int(team1_pts_opp))
     team2_stats.append(int(team1_pts))
+    team2_stats.append(int(team1_fg_opp))
+    team2_stats.append(int(team1_fg))
+    team2_stats.append(int(team1_fga_opp))
+    team2_stats.append(int(team1_fga))
+    team2_stats.append(int(team1_to_opp))
+    team2_stats.append(int(team1_to))
+    team2_stats.append(int(team1_fta_opp))
+    team2_stats.append(int(team1_fta))
+    team2_stats.append(int(team1_drb_opp))
+    team2_stats.append(int(team1_drb))
+    team2_stats.append(int(team1_orb_opp))
+    team2_stats.append(int(team1_orb))
+    team2_stats.append(int(team1_3p_opp))
+    team2_stats.append(int(team1_3p))
+    team2_stats.append(int(team1_3pa_opp))
+    team2_stats.append(int(team1_3pa))
+    team2_stats.append(getID(team2_name))
 
-    # print()
-    print(team1_stats)
-    print(team2_stats)
+    sql = '''INSERT INTO stats(
+            season, date, 
+            points, points_opp, 
+            fg, fg_opp, 
+            fga, fga_opp, 
+            tov, tov_opp, 
+            fta, fta_opp, 
+            drb, drb_opp, 
+            orb, orb_opp, 
+            three, three_opp, 
+            three_a, three_opp_a, 
+            team_id) 
+            VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'''
+
+    cursor.execute(sql, tuple(team1_stats))
+    cursor.execute(sql, tuple(team2_stats))
+    conn.commit()
+    print(f'Data entered for {team1_name} vs {team2_name}')

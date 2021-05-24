@@ -69,9 +69,11 @@ for i in range(0, len(game_links)):
 
     #Collect game stats
     team1_stats.append(season)
-    team1_stats.append(date,)
+    team1_stats.append(date_db,)
     table1 = soup_games.find_all('tfoot')
     if len(table1) == 18:
+        opponent = 9
+    elif len(table1) == 20:
         opponent = 10
     team1_pts = table1[0].find('td', attrs={'data-stat': 'pts'}).text
     team1_stats.append(int(team1_pts))
@@ -112,7 +114,7 @@ for i in range(0, len(game_links)):
     team1_stats.append(getID(team1_name))
 
     team2_stats.append(season)
-    team2_stats.append(date,)
+    team2_stats.append(date_db,)
     team2_stats.append(int(team1_pts_opp))
     team2_stats.append(int(team1_pts))
     team2_stats.append(int(team1_fg_opp))

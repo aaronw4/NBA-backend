@@ -14,10 +14,19 @@ season = "2020/2021"
 year = 2021
 month = 5
 day = 1
-date = f'{month}-{day}-{year}'
+
+if month < 10:
+    month_db = f'0{month}'
+else:
+    month_db = month
+if day < 10:
+    day_db = f'0{day}'
+else:
+    day_db = day
+date_db = f'{year}-{month_db}-{day_db}'
 
 #Check if date is already entered
-cursor.execute('SELECT date FROM stats WHERE date=?', (date,))
+cursor.execute('SELECT date FROM stats WHERE date=?', (date_db,))
 data = cursor.fetchone()
 if data is not None:
     print('Data from date already entered.')

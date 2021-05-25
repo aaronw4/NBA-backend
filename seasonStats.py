@@ -1,6 +1,8 @@
 import sqlite3
 import json
 
+date = "2021-04-01"
+
 def dict_factory(cursor, row):
     d = {}
     for idx,col in enumerate(cursor.description):
@@ -18,7 +20,7 @@ cursor.execute(
     avg(stats.drb) as drb, avg(stats.drb_opp) as drb_opp, avg(stats.orb) as orb, avg(stats.orb_opp) as orb_opp,
     avg(stats.three) as three, avg(stats.three_opp) as three_opp, avg(stats.three_a) as three_a, avg(stats.three_opp_a) as three_a_opp
     FROM teams INNER JOIN stats ON teams.id = stats.team_id
-    GROUP BY teams.name'''
+    WHERE stats.date <:date GROUP BY teams.name''', ({"date":date})
 )
 
 result = cursor.fetchall()

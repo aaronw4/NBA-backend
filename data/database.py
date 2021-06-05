@@ -37,4 +37,23 @@ CREATE TABLE IF NOT EXISTS stats (
     FOREIGN KEY ("team_id") REFERENCES teams (id)
 ) """)
 
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS odds (
+    [id] integer PRIMARY KEY,
+    [season] text NOT NULL,
+    [date] text NOT NULL,
+    [team_away] text NOT NULL,
+    [team_home] text NOT NULL,
+    [spread_open_away] text NOT NULL,
+    [spread_open_home] text NOT NULL, 
+    [spreadOdds_open_away] text NOT NULL, 
+    [spreadOdds_open_home] text NOT NULL, 
+    [total_open] text NOT NULL, 
+    [spread_away] text NOT NULL,
+    [spread_home] text NOT NULL, 
+    [spreadOdds_away] text NOT NULL, 
+    [spreadOdds_home] text NOT NULL, 
+    [total] text NOT NULL
+)""")
+
 conn.commit()

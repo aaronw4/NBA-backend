@@ -13,7 +13,7 @@ def last10StatsAll():
 
     cursor.execute(
         '''
-        SELECT teams.name, stats.date, 
+        SELECT stats.date, teams.name, 
         avg(stats.points) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as points, 
         avg(stats.points_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as points_opp, 
         avg(stats.fg) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as fg, 
@@ -38,4 +38,15 @@ def last10StatsAll():
 
     results = cursor.fetchall()  
 
-    return results
+    new_result = {}
+    for row in results:
+        date = row['date']
+        result_keys = list(row.keys())
+        result_keys = result_keys[2:]
+
+        if date not in new_result:
+            new_result[row['date']] = {}
+        new_dict = {x:row[x] for x in result_keys}            
+        new_result[row['date']][row['name']] = new_dict
+        
+    return new_result

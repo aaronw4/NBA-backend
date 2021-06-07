@@ -4,11 +4,11 @@ from bs4 import BeautifulSoup
 
 conn = sqlite3.connect('NBA.db')
 cursor = conn.cursor()
-
+# for day in range(1, 17):
 season = "2020/2021"
-year = 2020
-month = 12
-# day = 23
+year = 2021
+month = 5
+day = 10
 
 if month < 10:
     month_db = f'0{month}'
@@ -93,8 +93,12 @@ for lines in soup.find_all('div', rel='1096'):
     game_line2 = game_lines[1].text
     spread1 = game_line1[:-5]
     spread1 = spread1.replace('\u00BD', '.5')
+    if spread1 == 'P':
+        spread1 = '0'
     spread2 = game_line2[:-5]
     spread2 = spread2.replace('\u00BD', '.5')
+    if spread2 == 'P':
+        spread2 = '0'
     odds1 = game_line1[-4:]
     odds2 = game_line2[-4:]
     SPREADS_LIST.append(spread1)
@@ -141,6 +145,8 @@ for lines in soup.find_all('div', rel='1096'):
 # Create object with data
 for i in range(0, len(TEAMS_LIST), 2):
     team_stats = []
+    if SPREADS_LIST[i] == '':
+        continue
     team_stats.append(season)
     team_stats.append(date_db)
     team_stats.append(TEAMS_LIST[i])
@@ -166,4 +172,5 @@ for i in range(0, len(TEAMS_LIST), 2):
     '''
     cursor.execute(sql, tuple(team_stats))
     conn.commit()
+    # print(team_stats)
     print(f'Data entered for {TEAMS_LIST[i]} vs {TEAMS_LIST[i+1]}')

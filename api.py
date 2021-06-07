@@ -1,5 +1,6 @@
 import flask
 from flask import request, jsonify
+from flask_cors import CORS
 from queries.seasonStatsAll import seasonStatsAll
 from queries.last10StatsAll import last10StatsAll
 from queries.seasonStats import seasonStats
@@ -7,6 +8,7 @@ from queries.last10Stats import last10Stats
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
+cors = CORS(app)
 
 @app.route('/', methods=['GET'])
 def home():

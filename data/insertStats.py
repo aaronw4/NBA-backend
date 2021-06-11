@@ -112,6 +112,7 @@ for i in range(0, len(game_links)):
     team1_3pa_opp = table1[opponent].find('td', attrs={'data-stat': 'fg3a'}).text
     team1_stats.append(int(team1_3pa_opp))
     team1_stats.append(getID(team1_name))
+    team1_stats.append('away')
 
     team2_stats.append(season)
     team2_stats.append(date_db,)
@@ -134,6 +135,7 @@ for i in range(0, len(game_links)):
     team2_stats.append(int(team1_3pa_opp))
     team2_stats.append(int(team1_3pa))
     team2_stats.append(getID(team2_name))
+    team2_stats.append('home')
 
     sql = '''INSERT INTO stats(
             season, date, 
@@ -146,8 +148,8 @@ for i in range(0, len(game_links)):
             orb, orb_opp, 
             three, three_opp, 
             three_a, three_opp_a, 
-            team_id) 
-            VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'''
+            team_id, home_away) 
+            VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'''
 
     cursor.execute(sql, tuple(team1_stats))
     cursor.execute(sql, tuple(team2_stats))

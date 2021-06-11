@@ -14,24 +14,24 @@ def last10StatsAll():
     cursor.execute(
         '''
         SELECT stats.date, teams.name, 
-        avg(stats.points) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as points, 
-        avg(stats.points_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as points_opp, 
-        avg(stats.fg) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as fg, 
-        avg(stats.fg_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as fg_opp, 
-        avg(stats.fga) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as fga, 
-        avg(stats.fga_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as fga_opp, 
-        avg(stats.tov) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as tov, 
-        avg(stats.tov_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as tov_opp, 
-        avg(stats.fta) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as fta, 
-        avg(stats.fta_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as fta_opp, 
-        avg(stats.drb) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as drb, 
-        avg(stats.drb_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as drb_opp, 
-        avg(stats.orb) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as orb, 
-        avg(stats.orb_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as orb_opp, 
-        avg(stats.three) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as three, 
-        avg(stats.three_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as three_opp, 
-        avg(stats.three_a) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as three_a, 
-        avg(stats.three_opp_a) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as three_a_opp
+        avg(stats.points) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as points, 
+        avg(stats.points_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as points_opp, 
+        avg(stats.fg) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as fg, 
+        avg(stats.fg_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as fg_opp, 
+        avg(stats.fga) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as fga, 
+        avg(stats.fga_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as fga_opp, 
+        avg(stats.tov) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as tov, 
+        avg(stats.tov_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as tov_opp, 
+        avg(stats.fta) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as fta, 
+        avg(stats.fta_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as fta_opp, 
+        avg(stats.drb) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as drb, 
+        avg(stats.drb_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as drb_opp, 
+        avg(stats.orb) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as orb, 
+        avg(stats.orb_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as orb_opp, 
+        avg(stats.three) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as three, 
+        avg(stats.three_opp) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as three_opp, 
+        avg(stats.three_a) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as three_a, 
+        avg(stats.three_opp_a) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as three_a_opp
         FROM teams INNER JOIN stats ON teams.id = stats.team_id
         '''
     )

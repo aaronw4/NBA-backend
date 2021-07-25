@@ -1,6 +1,7 @@
 import sqlite3
 import requests
 from bs4 import BeautifulSoup
+from changeName import changeName
 
 conn = sqlite3.connect('NBA.db')
 cursor = conn.cursor()
@@ -54,9 +55,10 @@ html_data = requests.get(
 soup = BeautifulSoup(html_data.text, 'lxml')
 # Create list of all team names
 for teams in soup.find_all('span', class_='team-name'):
-    name = teams.text
-    if name[0] == "(":
-        name = name.split(')')[1][1:]
+    city = teams.text
+    if city[0] == "(":
+        city = city.split(')')[1][1:]
+    name = changeName(city)
     TEAMS_LIST.append(name)
 
 # Create list of opening lines

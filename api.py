@@ -11,6 +11,7 @@ from queries.last10StatsAllLocation import last10StatsAllLocation
 from queries.seasonStatsAllLocation import seasonStatsAllLocation
 from queries.oddsAll import oddsAll
 from queries.seasonLeagueAve import seasonLeagueAve
+from queries.scoresAll import scoresAll
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -101,5 +102,9 @@ def odds_All():
 @app.route('/api/nba-season-league-avg', methods=['GET'])
 def ave_All():
     return jsonify(seasonLeagueAve())
+
+@app.route('/api/nba-scores-all', methods=['GET'])
+def scores_All():
+    return jsonify(scoresAll())
 
 app.run()

@@ -18,7 +18,8 @@ def seasonStatsLocation(date, location):
         avg(stats.drb) as drb, avg(stats.drb_opp) as drb_opp, avg(stats.orb) as orb, avg(stats.orb_opp) as orb_opp,
         avg(stats.three) as three, avg(stats.three_opp) as three_opp, avg(stats.three_a) as three_a, avg(stats.three_opp_a) as three_a_opp
         FROM teams INNER JOIN stats ON teams.id = stats.team_id
-        WHERE stats.date < :date and stats.home_away = :location GROUP BY teams.name''', ({"location":location ,"date":date})
+        WHERE stats.date < :date AND stats.home_away = :location AND stats.overtime = "no"
+        GROUP BY teams.name''', ({"location":location ,"date":date})
     )
 
     results = cursor.fetchall()

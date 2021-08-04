@@ -33,7 +33,7 @@ def last10StatsAllLocation(location):
         avg(stats.three_a) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as three_a, 
         avg(stats.three_opp_a) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 10 PRECEDING and 1 PRECEDING) as three_a_opp
         FROM teams INNER JOIN stats ON teams.id = stats.team_id
-        WHERE stats.home_away = :location
+        WHERE stats.home_away = :location AND stats.overtime = "no"
         ''', ({"location":location})
     )
 

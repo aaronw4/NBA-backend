@@ -33,6 +33,7 @@ def seasonStatsAll():
         avg(stats.three_a) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN UNBOUNDED PRECEDING and 1 PRECEDING) as three_a, 
         avg(stats.three_opp_a) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN UNBOUNDED PRECEDING and 1 PRECEDING) as three_a_opp
         FROM teams INNER JOIN stats ON teams.id = stats.team_id
+        WHERE stats.overtime = "no"
         '''
     )
 

@@ -23,7 +23,7 @@ def seasonLeagueAve():
         avg(stats.orb) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as orb, 
         avg(stats.three) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as three, 
         avg(stats.three_a) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as three_a
-        FROM stats
+        FROM stats WHERE stats.overtime = "no"
         '''
     )
 

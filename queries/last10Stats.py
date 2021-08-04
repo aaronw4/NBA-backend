@@ -33,7 +33,7 @@ def last10Stats(date):
         avg(stats.three_a) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as three_a, 
         avg(stats.three_opp_a) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW) as three_a_opp
         FROM teams INNER JOIN stats ON teams.id = stats.team_id
-        WHERE stats.date <:date
+        WHERE stats.date <:date AND stats.overtime = "no"
         ''', ({"date":date})
     )
 

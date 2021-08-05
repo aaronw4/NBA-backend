@@ -12,13 +12,27 @@ def seasonStats(date):
     cursor = conn.cursor()
 
     cursor.execute(
-        '''SELECT teams.name, avg(stats.points) as points, avg(stats.points_opp) as points_opp, 
-        avg(stats.fg) as fg, avg(stats.fg_opp) as fg_opp, avg(stats.fga) as fga, avg(stats.fga_opp) as fga_opp,
-        avg(stats.tov) as tov, avg(stats.tov_opp) as tov_opp, avg(stats.fta) as fta, avg(stats.fta_opp) as fta_opp, 
-        avg(stats.drb) as drb, avg(stats.drb_opp) as drb_opp, avg(stats.orb) as orb, avg(stats.orb_opp) as orb_opp,
-        avg(stats.three) as three, avg(stats.three_opp) as three_opp, avg(stats.three_a) as three_a, avg(stats.three_opp_a) as three_a_opp
+        '''SELECT teams.name, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.points ELSE NULL END) as points, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.points_opp ELSE NULL END) as points_opp, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.fg ELSE NULL END) as fg, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.fg_opp ELSE NULL END) as fg_opp, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.fga ELSE NULL END) as fga, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.fga_opp ELSE NULL END) as fga_opp,
+        avg(CASE WHEN stats.overtime = "no" THEN stats.tov ELSE NULL END) as tov, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.tov_opp ELSE NULL END) as tov_opp, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.fta ELSE NULL END) as fta, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.fta_opp ELSE NULL END) as fta_opp, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.drb ELSE NULL END) as drb, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.drb_opp ELSE NULL END) as drb_opp, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.orb ELSE NULL END) as orb, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.orb_opp ELSE NULL END) as orb_opp,
+        avg(CASE WHEN stats.overtime = "no" THEN stats.three ELSE NULL END) as three, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.three_opp ELSE NULL END) as three_opp, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.three_a ELSE NULL END) as three_a, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.three_opp_a ELSE NULL END) as three_a_opp
         FROM teams INNER JOIN stats ON teams.id = stats.team_id
-        WHERE stats.date <:date and stats.overtime = "no"
+        WHERE stats.date <:date
         GROUP BY teams.name''', ({"date":date})
     )
 

@@ -11,6 +11,7 @@ from queries.last10StatsAllLocation import last10StatsAllLocation
 from queries.seasonStatsAllLocation import seasonStatsAllLocation
 from queries.oddsAll import oddsAll
 from queries.seasonLeagueAve import seasonLeagueAve
+from queries.seasonLeagueAveLoc import seasonLeagueAveLoc
 from queries.scoresAll import scoresAll
 
 app = flask.Flask(__name__)
@@ -102,6 +103,15 @@ def odds_All():
 @app.route('/api/nba-season-league-avg', methods=['GET'])
 def ave_All():
     return jsonify(seasonLeagueAve())
+
+@app.route('/api/nba-season-league-avg-location', methods=['GET'])
+def ave_All_loc():
+    if 'location' in request.args:
+        location = request.args['location']
+    else:
+        return "Error: No location field provided. Please specify home or away"
+
+    return jsonify(seasonLeagueAveLoc(location))
 
 @app.route('/api/nba-scores-all', methods=['GET'])
 def scores_All():

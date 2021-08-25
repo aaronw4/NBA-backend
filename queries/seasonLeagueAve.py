@@ -14,16 +14,16 @@ def seasonLeagueAve():
     cursor.execute(
         '''
         SELECT stats.date,         
-        avg(stats.points) OVER (ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as points, 
-        avg(stats.fg) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as fg, 
-        avg(stats.fga) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as fga, 
-        avg(stats.tov) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as tov, 
-        avg(stats.fta) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as fta, 
-        avg(stats.drb) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as drb, 
-        avg(stats.orb) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as orb, 
-        avg(stats.three) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as three, 
-        avg(stats.three_a) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as three_a
-        FROM stats WHERE stats.overtime = "no"
+        avg(CASE WHEN stats.overtime = "no" THEN stats.points ELSE NULL END) OVER (ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as points, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.fg ELSE NULL END) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as fg, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.fga ELSE NULL END) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as fga, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.tov ELSE NULL END) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as tov, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.fta ELSE NULL END) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as fta, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.drb ELSE NULL END) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as drb, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.orb ELSE NULL END) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as orb, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.three ELSE NULL END) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as three, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.three_a ELSE NULL END) OVER(ORDER BY stats.date RANGE UNBOUNDED PRECEDING) as three_a
+        FROM stats
         '''
     )
 

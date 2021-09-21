@@ -14,6 +14,9 @@ from queries.seasonLeagueAve import seasonLeagueAve
 from queries.seasonLeagueAveLoc import seasonLeagueAveLoc
 from queries.scoresAll import scoresAll
 
+# date should have format: '2021-05-01'
+# &location=home or &location=away
+
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 cors = CORS(app)
@@ -26,7 +29,6 @@ def home():
 def season_all():
     return jsonify(seasonStatsAll())
 
-# date should have format: '2021-05-01'
 @app.route('/api/nba-season-location/all', methods=['GET'])
 def season_location_all():
     if 'location' in request.args:
@@ -58,7 +60,6 @@ def season_date():
 
     return jsonify(seasonStats(date))
 
-# &location=home or &location=away
 @app.route('/api/nba-season-location', methods=['GET'])
 def season_date_home():
     if 'date' in request.args:

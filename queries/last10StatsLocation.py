@@ -13,40 +13,39 @@ def last10StatsLocation(date, location):
 
     cursor.execute(
         '''
-        SELECT teams.name, stats.date, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.points ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as points, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.points_opp ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as points_opp, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.fg ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as fg, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.fg_opp ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as fg_opp, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.fga ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as fga, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.fga_opp ELSE NULL END OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as fga_opp, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.tov ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as tov, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.tov_opp ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as tov_opp, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.fta ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as fta, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.fta_opp ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as fta_opp, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.drb ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as drb, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.drb_opp ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as drb_opp, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.orb ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as orb, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.orb_opp ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as orb_opp, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.three ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as three,  
-        avg(CASE WHEN stats.overtime = "no" THEN stats.three_opp ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as three_opp, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.three_a ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as three_a, 
-        avg(CASE WHEN stats.overtime = "no" THEN stats.three_opp_a ELSE NULL END) OVER(PARTITION BY teams.name ORDER BY stats.date ROWS BETWEEN 9 PRECEDING and CURRENT ROW)as three_a_opp
+        SELECT teams.name, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.points ELSE NULL END) as points, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.points_opp ELSE NULL END) as points_opp, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.fg ELSE NULL END) as fg, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.fg_opp ELSE NULL END) as fg_opp, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.fga ELSE NULL END) as fga, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.fga_opp ELSE NULL END) as fga_opp, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.tov ELSE NULL END) as tov, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.tov_opp ELSE NULL END) as tov_opp, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.fta ELSE NULL END) as fta, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.fta_opp ELSE NULL END) as fta_opp, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.drb ELSE NULL END) as drb, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.drb_opp ELSE NULL END) as drb_opp, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.orb ELSE NULL END) as orb, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.orb_opp ELSE NULL END) as orb_opp, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.three ELSE NULL END) as three,  
+        avg(CASE WHEN stats.overtime = "no" THEN stats.three_opp ELSE NULL END) as three_opp, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.three_a ELSE NULL END) as three_a, 
+        avg(CASE WHEN stats.overtime = "no" THEN stats.three_opp_a ELSE NULL END) as three_a_opp
         FROM teams INNER JOIN stats ON teams.id = stats.team_id
         WHERE stats.date <:date AND stats.home_away = :location
-        ''', ({"location":location, "date":date})
+        GROUP BY teams.name''', ({"location":location, "date":date})
     )
 
     results = cursor.fetchall()
 
-    last10 = []
+    new_result = {}
+    for row in results:
+        name = row['name']
+        result_keys = list(row.keys())
+        result_keys = result_keys[1:]
 
-    for index in range(len(results)):
-        if index == len(results)-1:
-            last10.append(results[index])
-        elif results[index]['date'] < results[index+1]['date']:
-            continue
-        else:
-            last10.append(results[index])
+        new_dict = {x:row[x] for x in result_keys}
+        new_result[name] = new_dict
 
-    return last10
+    return new_result

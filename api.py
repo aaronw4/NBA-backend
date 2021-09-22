@@ -18,7 +18,7 @@ from queries.scoresAll import scoresAll
 # &location=home or &location=away
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+# app.config["DEBUG"] = True
 cors = CORS(app)
 
 @app.route('/', methods=['GET'])

@@ -16,19 +16,18 @@ from queries.scoresAll import scoresAll
 # date should have format: '2021-05-01'
 # &location=home or &location=away
 
-app = Flask(__name__)
-# app.config["DEBUG"] = True
-cors = CORS(app)
+application = Flask(__name__)
+cors = CORS(application)
 
-@app.route('/', methods=['GET'])
+@application.route('/', methods=['GET'])
 def home():
     return '<p>Server is alive!</p>'
 
-@app.route('/api/nba-season/all', methods=['GET'])
+@application.route('/api/nba-season/all', methods=['GET'])
 def season_all():
     return jsonify(seasonStatsAll())
 
-@app.route('/api/nba-season-location/all', methods=['GET'])
+@application.route('/api/nba-season-location/all', methods=['GET'])
 def season_location_all():
     if 'location' in request.args:
         location = request.args['location']
@@ -37,11 +36,11 @@ def season_location_all():
 
     return jsonify(seasonStatsAllLocation(location))
 
-@app.route('/api/nba-last10/all', methods=['GET'])
+@application.route('/api/nba-last10/all', methods=['GET'])
 def last10_all():
     return jsonify(last10StatsAll())
 
-@app.route('/api/nba-last10-location/all', methods=['GET'])
+@application.route('/api/nba-last10-location/all', methods=['GET'])
 def last10_location_all():
     if 'location' in request.args:
         location = request.args['location']
@@ -50,7 +49,7 @@ def last10_location_all():
 
     return jsonify(last10StatsAllLocation(location))
 
-@app.route('/api/nba-season', methods=['GET'])
+@application.route('/api/nba-season', methods=['GET'])
 def season_date():
     if 'date' in request.args:
         date = request.args['date']
@@ -59,7 +58,7 @@ def season_date():
 
     return jsonify(seasonStats(date))
 
-@app.route('/api/nba-season-location', methods=['GET'])
+@application.route('/api/nba-season-location', methods=['GET'])
 def season_date_home():
     if 'date' in request.args:
         date = request.args['date']
@@ -73,7 +72,7 @@ def season_date_home():
 
     return jsonify(seasonStatsLocation(date, location))
     
-@app.route('/api/nba-last10', methods=['GET'])
+@application.route('/api/nba-last10', methods=['GET'])
 def last10_date():
     if 'date' in request.args:
         date = request.args['date']
@@ -82,7 +81,7 @@ def last10_date():
 
     return jsonify(last10Stats(date))
 
-@app.route('/api/nba-last10-location', methods=['GET'])
+@application.route('/api/nba-last10-location', methods=['GET'])
 def last10_date_home():
     if 'date' in request.args:
         date = request.args['date']
@@ -96,15 +95,15 @@ def last10_date_home():
 
     return jsonify(last10StatsLocation(date, location))
 
-@app.route('/api/nba-odds-all', methods=['GET'])
+@application.route('/api/nba-odds-all', methods=['GET'])
 def odds_All():
     return jsonify(oddsAll())
 
-@app.route('/api/nba-season-league-avg', methods=['GET'])
+@application.route('/api/nba-season-league-avg', methods=['GET'])
 def ave_All():
     return jsonify(seasonLeagueAve())
 
-@app.route('/api/nba-season-league-avg-location', methods=['GET'])
+@application.route('/api/nba-season-league-avg-location', methods=['GET'])
 def ave_All_loc():
     if 'location' in request.args:
         location = request.args['location']
@@ -113,8 +112,10 @@ def ave_All_loc():
 
     return jsonify(seasonLeagueAveLoc(location))
 
-@app.route('/api/nba-scores-all', methods=['GET'])
+@application.route('/api/nba-scores-all', methods=['GET'])
 def scores_All():
     return jsonify(scoresAll())
 
-app.run()
+if __name__ == "__main__":
+    application.debug = True
+    application.run()

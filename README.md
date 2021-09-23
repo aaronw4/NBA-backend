@@ -1,8 +1,8 @@
 # NBA-backend
-The is a python back-end created with Flask. The database was populated by using Beautiful Soup to scrape websites to collect NBA statistics and sports betting lines for the 2020/2021 season.
+The is a python back-end created with Flask. The database was populated by using Beautiful Soup to scrape websites to collect NBA statistics and sports betting lines for the 2020/2021 season. This backend is deployed on AWS.
 
 ## Endpoints
-Base URL: 
+Base URL: http://nba-backend.eba-mmvdz8pp.us-west-1.elasticbeanstalk.com/
 
 Method | Endpoint | Description | Query String
 -------|----------|-------------|-------------

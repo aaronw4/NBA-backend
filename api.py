@@ -1,5 +1,4 @@
-import flask
-from flask import request, jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from queries.seasonStatsAll import seasonStatsAll
 from queries.last10StatsAll import last10StatsAll
@@ -17,7 +16,7 @@ from queries.scoresAll import scoresAll
 # date should have format: '2021-05-01'
 # &location=home or &location=away
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 # app.config["DEBUG"] = True
 cors = CORS(app)
 

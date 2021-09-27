@@ -2,7 +2,8 @@
 The is a python back-end created with Flask. The database was populated by using Beautiful Soup to scrape websites to collect NBA statistics and sports betting lines for the 2020/2021 season. This backend is deployed on Heroku and AWS.
 
 ## Endpoints
-Heroku Base URL: https://arw-nba-backend.herokuapp.com/
+Heroku Base URL: https://arw-nba-backend.herokuapp.com/  
+
 AWS Base URL: http://nba-backend.eba-mc4zbfx6.us-west-1.elasticbeanstalk.com/
 
 Method | Endpoint | Description | Query String
